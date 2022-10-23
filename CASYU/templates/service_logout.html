@@ -11,7 +11,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
-        <form name="sentMessage" id="contactForm" action = "/logout" method="post">
+        <form name="sentMessage" id="contactForm" action = "service_logout" method="post">
             {% csrf_token %}
             <p>{{name}}</p>
             <div class="form-group"><button class="btn btn-primary btn-block" type="submit">logout</button></div>

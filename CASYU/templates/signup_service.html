@@ -16,17 +16,19 @@
     <div class="register-photo">
         <div class="form-container">
             <div class="image-holder"></div>
-            <form name="sentMessage" id="contactForm" action = "/signup" method="post">
+            <form name="sentMessage" id="contactForm" action = "service_signup" method="post">
                 {%csrf_token %}
-                <h2 class="text-center"><strong>Create</strong> an account.</h2>
+                <h2 class="text-center"><strong>service_Create</strong> an account.</h2>
                 <div class="form-group"><input class="form-control" type="text"name="first_name" placeholder="Enter your first name"Required></div>
                 <div class="form-group"><input class="form-control" type="text" name="Last_name" placeholder="Enter your Last name"Required></div>
                 <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div>
+                <div class="form-group"><input class="form-control" type="text" name="service" placeholder="service provided"Required></div>
+                <div class="form-group"><input class="form-control" type="text" name="amount" placeholder="per head money"Required></div>
                 <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Enter your Email"Required></div>
                 <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Enter your Password"Required></div>
                 <div class="form-group"><input class="form-control" type="password" name="passwordrepeat" placeholder="confirm your Password"Required></div>
                 <div class="form-group">
-                    
+                   
                 </div>
                 <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Sign Up</button></div><a href="#" class="already">You already have an account? Login here.</a></form>
             </form>
