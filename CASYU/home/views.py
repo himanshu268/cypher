@@ -175,7 +175,7 @@ def changing_password(request):
                 new_password=make_password(new_password)
                 change_pwd.password=new_password
                 change_pwd.save()
-                return HttpResponse('pwd_changed')
+                return HttpResponse('signin.html')
             else:
                 return HttpResponse('passwords are not same')
         else:
@@ -202,6 +202,7 @@ def bargin(request):
             a=0
             service_name=[]
             amt=[]
+            tr=[]
             global service
             global amount
             amount=request.POST.get('bargin')
@@ -213,9 +214,12 @@ def bargin(request):
                     service_name.append(mj.username)
                     amt.append(mj.amount)
                     a+=1
+            mylist=zip(service_name,amt)
+            cont={'mylist':mylist,}
+            # print(mylist.service_name)
             if a ==0:
                 return HttpResponse('increase the price') 
-            return render(request,'sending_request.html',{'service_username':service_name,'service_amount':amt,'y':range(a)})
+            return render(request,'sending_request.html', cont)
         return render(request,'bargin.html')
     return render(request,'signin.html')
 
@@ -231,9 +235,11 @@ def sending_request(request):
                 if perfect_service.objects.filter(service_usr=service_usr,customer_usr=name).exists():
                     updating_amt=perfect_service.objects.get(service_usr=service_usr,customer_usr=name)
                     updating_amt.amt_offered=bargin_amt
+                    # updating_amt.service=service
+
                     updating_amt.save()
                 else:
-                    servic=perfect_service(amt_offered=bargin_amt,customer_usr=name,service_usr=service_usr,service_boolean='0',customer_boolean='0')
+                    servic=perfect_service(amt_offered=bargin_amt,customer_usr=name,service_usr=service_usr,service_boolean='0',customer_boolean='0',service=service)
                     servic.save()
                 bg=Signup_service.objects.all()
                 for mj in bg:
@@ -241,8 +247,23 @@ def sending_request(request):
                         serv_name.append(mj.username)
                         amt.append(mj.amount)
                         mi+=1
-            return render(request,'sending_request.html',{'service_username':serv_name,'service_amount':amt,'y':range(mi)})
-        return render(request,'bargin.html')
+                mylist=zip(serv_name,amt)
+                cont={'mylist':mylist,}
+            return render(request,'sending_request.html', cont)
+        else:
+            mi=0
+            serv_name=[]
+            amt=[]
+            bg=Signup_service.objects.all()
+            for mj in bg:
+                if service==mj.service and amount>=mj.amount:
+                    serv_name.append(mj.username)
+                    amt.append(mj.amount)
+                    mi+=1
+            mylist=zip(serv_name,amt)
+            cont={'mylist':mylist,}
+            return render(request,'sending_request.html', cont)
+
     return render(request,'signin.html')
 
 
@@ -254,6 +275,7 @@ def pending_request(request):
             service_name=[]
             amt=[]
             ser_amt=[]
+            serv_get=[]
             y=0
             data=perfect_service.objects.all()
             for k in data:
@@ -261,10 +283,15 @@ def pending_request(request):
                     service_name.append(k.service_usr)
                     amt.append(k.amt_offered)
                     ser_amt.append(k.ser_amt_offered)
+                    serv_get.append(k.service)
+                    # serv_get.append(k.service_recieved)
                     y+=1
+            
             if y==0:                
                 return HttpResponse('no request is pending')
-            return render(request,'pending_request.html',{'service_name':service_name,'amt':amt,'y':range(y),'ser_amt':ser_amt})#dashboard or profile
+            mylist=zip(service_name,amt,ser_amt,serv_get)
+            cont={'mylist':mylist,}
+            return render(request,'pending_request.html',cont)#dashboard or profile
     return render(request,'signin.html')
           
 def delete_request(request):
@@ -274,21 +301,45 @@ def delete_request(request):
             serv_name=[]
             amt=[]
             ser_amt=[]
+            serv_get=[]
             service_usr=request.POST.get('service_usr')
-            if perfect_service.objects.filter(service_usr=service_usr).exists():
-                perfect_service.objects.filter(service_usr=service_usr).delete()
+            if perfect_service.objects.filter(service_usr=service_usr,customer_usr=name).exists():
+                perfect_service.objects.filter(service_usr=service_usr,customer_usr=name).delete()
                 data=perfect_service.objects.all()
                 for k in data:
                     if k.customer_usr==name and k.service_boolean=='0':
                         serv_name.append(k.service_usr)
                         amt.append(k.amt_offered)
                         ser_amt.append(k.ser_amt_offered)
+                        serv_get.append(k.service)
                         z+=1
                 if z==0:                
                     return HttpResponse('no request is pending')
+                mylist=zip(serv_name,amt,ser_amt,serv_get)
+                cont={'mylist':mylist,}
+            return render(request,'pending_request.html',cont)
                 # return render(request,'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
-            return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt}) #with a message that please enter right datat
-        return render(request, 'bargin.html')   #dashboard
+            # return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt,'service':serv_get}) #with a message that please enter right datat
+        else:
+            z=0
+            serv_name=[]
+            amt=[]
+            ser_amt=[]
+            serv_get=[]
+            data=perfect_service.objects.all()
+            for k in data:
+                if k.customer_usr==name and k.service_boolean=='0':
+                    serv_name.append(k.service_usr)
+                    amt.append(k.amt_offered)
+                    ser_amt.append(k.ser_amt_offered)
+                    serv_get.append(k.service)
+                    z+=1
+            if z==0:                
+                return HttpResponse('no request is pending')
+            mylist=zip(serv_name,amt,ser_amt,serv_get)
+            cont={'mylist':mylist,}
+            return render(request,'pending_request.html',cont)
+            # return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt,'service':serv_get}) #with a message that please enter right datat   #dashboard   #dashboard
     return render(request, 'signin.html')
 
 def accept_request(request):
@@ -298,10 +349,11 @@ def accept_request(request):
             serv_name=[]
             amt=[]
             ser_amt=[]
+            serv_get=[]
             service_usr=request.POST.get('service_usr')
             bargin_amt=request.POST.get('bargin_amt')
-            if perfect_service.objects.filter(service_usr=service_usr,ser_amt_offered=bargin_amt).exists():
-                accept=perfect_service.objects.get(service_usr=service_usr,ser_amt_offered=bargin_amt)
+            if perfect_service.objects.filter(service_usr=service_usr,ser_amt_offered=bargin_amt,customer_usr=name).exists():
+                accept=perfect_service.objects.get(service_usr=service_usr,ser_amt_offered=bargin_amt,customer_usr=name)
                 accept.service_boolean='1'
                 accept.customer_boolean='1'
                 accept.final=bargin_amt
@@ -312,12 +364,35 @@ def accept_request(request):
                         serv_name.append(k.service_usr)
                         amt.append(k.amt_offered)
                         ser_amt.append(k.ser_amt_offered)
+                        serv_get.append(k.service)
                         z+=1
                 if z==0:                
                     return HttpResponse('no request is pending')
+                mylist=zip(serv_name,amt,ser_amt,serv_get)
+                cont={'mylist':mylist,}
+            return render(request,'pending_request.html',cont)
                 # return render(request,'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
-            return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt}) #with a message that please enter right datat
-        return render(request, 'bargin.html')   #dashboard
+            # return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt,'service':serv_get,'service':serv_get}) #with a message that please enter right datat
+        else:
+            z=0
+            serv_name=[]
+            amt=[]
+            ser_amt=[]
+            serv_get=[]
+            data=perfect_service.objects.all()
+            for k in data:
+                if k.customer_usr==name and k.service_boolean=='0':
+                    serv_name.append(k.service_usr)
+                    amt.append(k.amt_offered)
+                    ser_amt.append(k.ser_amt_offered)
+                    serv_get.append(k.service)
+                    z+=1
+            if z==0:                
+                return HttpResponse('no request is pending')
+            mylist=zip(serv_name,amt,ser_amt,serv_get)
+            cont={'mylist':mylist,}
+            return render(request,'pending_request.html',cont)
+            # return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt,'service':serv_get}) #with a message that please enter right datat   #dashboard
     return render(request, 'signin.html')
 
 
@@ -328,10 +403,11 @@ def bargin_request(request):
             serv_name=[]
             amt=[]
             ser_amt=[]
+            serv_get=[]
             servic_usr=request.POST.get('service_usr')
             bargin_amt=request.POST.get('bargin_amt')
-            if perfect_service.objects.filter(service_usr=servic_usr,service_boolean='0').exists():
-                accept=perfect_service.objects.get(service_usr=servic_usr,service_boolean='0')
+            if perfect_service.objects.filter(service_usr=servic_usr,service_boolean='0',customer_usr=name).exists():
+                accept=perfect_service.objects.get(service_usr=servic_usr,service_boolean='0',customer_usr=name)
                 accept.amt_offered=bargin_amt
                 accept.save()
                 data=perfect_service.objects.all()
@@ -340,12 +416,37 @@ def bargin_request(request):
                         serv_name.append(k.service_usr)
                         amt.append(k.amt_offered)
                         ser_amt.append(k.ser_amt_offered)
+                        serv_get.append(k.service)
                         z+=1
                 if z==0:                
-                    return HttpResponse('no request is pending')
+                    return HttpResponse('no request is pending')    
+                mylist=zip(serv_name,amt,ser_amt,serv_get)
+                cont={'mylist':mylist,}
+            return render(request,'pending_request.html',cont)
                 # return render(request,'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
-            return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt}) #with a message that please enter right datat
-        return render(request, 'bargin.html')   #dashboard
+            # return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt,'service':serv_get}) #with a message that please enter right datat
+        else:
+            z=0
+            serv_name=[]
+            amt=[]
+            ser_amt=[]
+            serv_get=[]
+            data=perfect_service.objects.all()
+            for k in data:
+                if k.customer_usr==name and k.service_boolean=='0':
+                    serv_name.append(k.service_usr)
+                    amt.append(k.amt_offered)
+                    ser_amt.append(k.ser_amt_offered)
+                    serv_get.append(k.service)
+                    z+=1
+            if z==0:                
+                return HttpResponse('no request is pending')
+                
+            mylist=zip(serv_name,amt,ser_amt,serv_get)
+            cont={'mylist':mylist,}
+            return render(request,'pending_request.html',cont)
+                # return render(request,'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
+            # return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt,'service':serv_get}) #with a message that please enter right datat
     return render(request, 'signin.html')
 
 
@@ -358,15 +459,21 @@ def accepted(request): #to check the accepted request
             m=0
             serv_name=[]
             amt=[]
+            serv_get=[]
             accept=perfect_service.objects.all()
             for i in accept:
-                if i.service_boolean=='1':
+                if i.service_boolean=='1'and i.customer_usr==name:
                     serv_name.append(i.service_usr)
                     amt.append(i.final)
+                    serv_get.append(i.service)
                     m+=1
             if m==0:
                 return HttpResponse('no request accepted')
-            return render(request,'accept_request.html',{'service_name':serv_name,'amt':amt,'y':range(m)})
+                
+            mylist=zip(serv_name,amt,serv_get)
+            cont={'mylist':mylist,}
+            return render(request,'accept_request.html',cont)
+            # return render(request,'accept_request.html',{'service_name':serv_name,'amt':amt,'y':range(m),'service':serv_get})
     return render(request, 'signin.html')
                     
 
@@ -537,13 +644,17 @@ def service_changing_password(request):
                 change_pwd=Signup_service.objects.get(email=service_forget_email)
                 new_password=make_password(new_password)
                 change_pwd.password=new_password
+                # service_create_token=token()
+                # change_pwd.token=service_create_token
                 change_pwd.save()
-                return HttpResponse('pwd_changed')
+                # return HttpResponse('pwd_changed')
+                return render(request,'service_signin.html')
             else:
                 return HttpResponse('passwords are not same')
         else:
-            return render(request,'service_changing_pwd.html')
-    return render(request,'service_forgot_ped.html')
+            service_create_token=token()
+            return render(request,'service_signin.html')
+    return render(request,'service_forget_ped.html')
 
 def service_logout(request):
     global service_islogin
@@ -570,13 +681,18 @@ def service_recieve_request(request):
             data=perfect_service.objects.all()
             for k in data:
                 if k.service_usr==service_name and k.service_boolean=='0':
+                
                     cust_name.append(k.customer_usr)
                     amt.append(k.amt_offered)
                     ser_amt.append(k.ser_amt_offered)
                     y+=1
             if y==0:                
                 return HttpResponse('no request is pending')
-            return render(request,'ser_receive_request.html',{'service_name':cust_name,'amt':amt,'y':range(y),'ser_amt':ser_amt})#dashboard or profile
+                
+            mylist=zip(cust_name,amt,ser_amt)
+            cont={'mylist':mylist,}
+            return render(request,'ser_receive_request.html',cont)
+            # return render(request,'ser_receive_request.html',{'service_name':cust_name,'amt':amt,'y':range(y),'ser_amt':ser_amt})#dashboard or profile
     return render(request,'service_signin.html')
 
 def service_delete_request(request):
@@ -587,8 +703,8 @@ def service_delete_request(request):
             amt=[]
             ser_amt=[]
             cust_usr=request.POST.get('service_usr')
-            if perfect_service.objects.filter(customer_usr=cust_usr).exists():
-                perfect_service.objects.filter(customer_usr=cust_usr).delete()
+            if perfect_service.objects.filter(customer_usr=cust_usr,service_usr=service_name).exists():
+                perfect_service.objects.filter(customer_usr=cust_usr,service_usr=service_name).delete()
                 data=perfect_service.objects.all()
                 for k in data:
                     if k.service_usr==service_name and k.service_boolean=='0':
@@ -598,9 +714,30 @@ def service_delete_request(request):
                         z+=1
                 if z==0:                
                     return HttpResponse('no request is pending')
-                return render(request,'ser_receive_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
-            return render(request, 'ser_receive_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt}) #with a message that please enter right datat
-        return HttpResponse('login again')   #dashboard
+                mylist=zip(serv_name,amt,ser_amt)
+                cont={'mylist':mylist,}
+            return render(request,'ser_receive_request.html',cont)
+                # return render(request,'ser_receive_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
+            # return render(request, 'ser_receive_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
+        else:
+            z=0
+            serv_name=[]
+            amt=[]
+            ser_amt=[]
+            data=perfect_service.objects.all()
+            for k in data:
+                if k.service_usr==service_name and k.service_boolean=='0':
+                    serv_name.append(k.customer_usr)
+                    amt.append(k.amt_offered)
+                    ser_amt.append(k.ser_amt_offered)
+                    z+=1
+            if z==0:                
+                return HttpResponse('no request is pending')
+                
+            mylist=zip(serv_name,amt,ser_amt)
+            cont={'mylist':mylist,}
+            return render(request,'ser_receive_request.html',cont) #with a message that please enter right datat
+        # return HttpResponse('login again')   #dashboard
     return render(request, 'service_signin.html')
 
 def service_accept_request(request):
@@ -612,8 +749,8 @@ def service_accept_request(request):
             ser_amt=[]
             cust_usr=request.POST.get('service_usr')
             amt_ready=request.POST.get('bargin_amt')
-            if perfect_service.objects.filter(customer_usr=cust_usr,amt_offered=amt_ready).exists():
-                accept=perfect_service.objects.get(customer_usr=cust_usr,amt_offered=amt_ready)
+            if perfect_service.objects.filter(customer_usr=cust_usr,amt_offered=amt_ready,service_usr=service_name).exists():
+                accept=perfect_service.objects.get(customer_usr=cust_usr,amt_offered=amt_ready,service_usr=service_name)
                 accept.service_boolean='1'
                 accept.customer_boolean='1'
                 accept.final=amt_ready
@@ -627,9 +764,31 @@ def service_accept_request(request):
                         z+=1
                 if z==0:                
                     return HttpResponse('no request is pending')
+                    
+                mylist=zip(serv_name,amt,ser_amt)
+                cont={'mylist':mylist,}
+            return render(request,'ser_receive_request.html',cont)
                 # return render(request,'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
-            return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt}) #with a message that please enter right datat
-        return render(request, 'service_logout.html')   #dashboard
+            # return render(request, 'pending_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
+        else:
+            z=0
+            serv_name=[]
+            amt=[]
+            ser_amt=[]
+            data=perfect_service.objects.all()
+            for k in data:
+                if k.service_usr==service_name and k.service_boolean=='0':
+                    serv_name.append(k.customer_usr)
+                    amt.append(k.amt_offered)
+                    ser_amt.append(k.ser_amt_offered)
+                    z+=1
+            if z==0:                
+                return HttpResponse('no request is pending')
+                
+            mylist=zip(serv_name,amt,ser_amt)
+            cont={'mylist':mylist,}
+            return render(request,'ser_receive_request.html',cont) #with a message that please enter right datat
+        # return render(request, 'service_logout.html')   #dashboard
     return render(request, 'service_signin.html')
 
 
@@ -642,8 +801,8 @@ def service_bargin_request(request):
             ser_amt=[]
             servic_usr=request.POST.get('service_usr')
             bargin_amt=request.POST.get('bargin_amt')
-            if perfect_service.objects.filter(customer_usr=servic_usr,service_boolean='0').exists():
-                accept=perfect_service.objects.get(customer_usr=servic_usr,service_boolean='0')
+            if perfect_service.objects.filter(customer_usr=servic_usr,service_boolean='0',service_usr=service_name).exists():
+                accept=perfect_service.objects.get(customer_usr=servic_usr,service_boolean='0',service_usr=service_name)
                 accept.ser_amt_offered=bargin_amt
                 accept.save()
                 data=perfect_service.objects.all()
@@ -655,9 +814,32 @@ def service_bargin_request(request):
                         z+=1
                 if z==0:                
                     return HttpResponse('no request is pending')
-                return render(request,'ser_receive_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
-            return render(request, 'ser_receive_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt}) #with a message that please enter right datat
-        return HttpResponse('login again')   #dashboard
+                
+                mylist=zip(serv_name,amt,ser_amt)
+                cont={'mylist':mylist,}
+            return render(request,'ser_receive_request.html',cont)
+                # return render(request,'ser_receive_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt})
+            # return render(request, 'ser_receive_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt}) #with a message that please enter right datat
+        else:
+            z=0
+            serv_name=[]
+            amt=[]
+            ser_amt=[]
+            data=perfect_service.objects.all()
+            for k in data:
+                if k.service_usr==service_name and k.service_boolean=='0':
+                    serv_name.append(k.customer_usr)
+                    amt.append(k.amt_offered)
+                    ser_amt.append(k.ser_amt_offered)
+                    z+=1
+            if z==0:                
+                return HttpResponse('no request is pending')
+            
+            mylist=zip(serv_name,amt,ser_amt)
+            cont={'mylist':mylist,}
+            return render(request,'ser_receive_request.html',cont)
+               #dashboard
+            # return render(request, 'ser_receive_request.html',{'service_name':serv_name,'amt':amt,'y':range(z),'ser_amt':ser_amt}) #with a message that please enter right datat
     return render(request, 'service_signin.html')
 
 
@@ -671,14 +853,17 @@ def service_accepted(request): #to check the accepted request
             amt=[]
             accept=perfect_service.objects.all()
             for i in accept:
-                if i.service_boolean=='1':
+                if i.service_boolean=='1' and i.service_usr==service_name:
                     serv_name.append(i.customer_usr)
                     amt.append(i.final)
                     m+=1
             if m==0:
                 return HttpResponse('no request accepted')
-            return render(request,'ser_accept_request.html',{'service_name':serv_name,'amt':amt,'y':range(m)})
+                
+            mylist=zip(serv_name,amt)
+            cont={'mylist':mylist,}
+            return render(request,'ser_accept_request.html',cont)
+            # return render(request,'ser_accept_request.html',{'service_name':serv_name,'amt':amt,'y':range(m)})
     return render(request, 'service_signin.html')
-#def to accept or reject(request):
-#def visible_accepted(request):
+
 

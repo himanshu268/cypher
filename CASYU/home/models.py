@@ -34,4 +34,5 @@ class perfect_service(models.Model):
     service_boolean=models.CharField(max_length=1)
     ser_amt_offered=models.CharField(default='NOT SEEN',max_length=10)
     final=models.IntegerField(default=0)
+    service=models.CharField(max_length=50,default='NONE')
 

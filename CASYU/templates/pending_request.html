@@ -11,11 +11,12 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
-        <p>usernames&emsp;&emsp;&emsp;&emsp;&emsp;price you offere&emsp;&emsp;&emsp;&emsp;&emsp;price by service provier</p>
+        <p>usernames&emsp;&emsp;&emsp;&emsp;&emsp;price you offere&emsp;&emsp;&emsp;&emsp;&emsp;price by service provier&emsp;&emsp;&emsp;&emsp;&emsp;service provided</p>
         {% comment %} {%for i in y %} {% endcomment %}
-        <p>{{service_name}}&emsp;&emsp;&emsp;&emsp;&emsp;{{amt}}&emsp;&emsp;&emsp;&emsp;&emsp;{{ser_amt}}</p>
+        {% for i,j,k,l in mylist%}
+        <p>{{i}}&emsp;&emsp;&emsp;&emsp;&emsp;{{j}}&emsp;&emsp;&emsp;&emsp;&emsp;{{k}}&emsp;&emsp;&emsp;&emsp;&emsp;{{l}}</p>
                 {% comment %} {{y}} {% endcomment %}
-        {% comment %} {%endfor %} {% endcomment %}
+        {%endfor %}
         <form name="sentMessage" id="contactForm" action = "/delete_request" method="post">
             {%csrf_token %}
             <h2 class="text-center"><strong>Delete</strong>request</h2>

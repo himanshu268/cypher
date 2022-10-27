@@ -14,7 +14,16 @@
         <p>usernames&emsp;&emsp;&emsp;&emsp;&emsp;offer_price</p>
         <form name="sentMessage" id="contactForm" action = "/sending_request" method="post">
             {%csrf_token %}
-            <p>{{service_username}}&emsp;&emsp;&emsp;&emsp;&emsp;{{service_amount}}</p>
+            {% comment %} {%for i in service_username%} {% endcomment %}
+            {% comment %} {{data.service_username}} {% endcomment %}
+            
+            {% for one,two in mylist%}
+            
+                <p> {{ one}}&emsp;&emsp;&emsp;&emsp;&emsp;{{two}} </p>
+            {% endfor %}
+            {% comment %} <p>{{data.service_username.0}}&emsp;&emsp;&emsp;&emsp;&emsp;{{data.service_amount}}</p> {% endcomment %}
+            {% comment %} <p>{% service_username.i %}</p> {% endcomment %}
+            {% comment %} {%endfor%} {% endcomment %}
             <h2 class="text-center"><strong>Enter</strong> OTP</h2>
             {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
             <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div>

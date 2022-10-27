@@ -12,7 +12,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
         <p>usernames&emsp;&emsp;&emsp;&emsp;&emsp;price you offere and accepted</p>
-        <p>{{service_name}}&emsp;&emsp;&emsp;&emsp;&emsp;{{amt}}</p>
+        {%for i,j in mylist%}
+        <p>{{i}}&emsp;&emsp;&emsp;&emsp;&emsp;{{j}}</p>
+        {%endfor%}
     </head>
     <body>
         <!--[if lt IE 7]>
