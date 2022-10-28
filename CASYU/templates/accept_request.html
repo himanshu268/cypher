@@ -5,16 +5,32 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
+        <style>
+            table, th, td {
+               border: 1px solid black;
+            }
+         </style>
+   
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>sending_request</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
-        <p>usernames&emsp;&emsp;&emsp;&emsp;&emsp;price you offere and accepted&emsp;&emsp;&emsp;&emsp;&emsp;service provided</p>
+        <table>
+        <tr>
+            <th>usernames</th>
+            <th>price you offere and accepted</th>
+            <th>service provided</th>
+        </tr>
         {%for i,j,k in mylist%}
-        <p>{{i}}&emsp;&emsp;&emsp;&emsp;&emsp;{{j}}&emsp;&emsp;&emsp;&emsp;&emsp;{{k}}</p>
+        <tr>
+            <td>{{i}}</td>
+            <td>{{j}}</td>
+            <td>{{k}}</td>
+        </tr>
         {%endfor%}
+        </table
     </head>
     <body>
         <!--[if lt IE 7]>

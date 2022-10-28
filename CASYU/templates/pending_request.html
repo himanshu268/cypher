@@ -5,18 +5,37 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
+        <style>
+            table, th, td {
+               border: 1px solid black;
+            }
+         </style>
+   
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>sending_request</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
-        <p>usernames&emsp;&emsp;&emsp;&emsp;&emsp;price you offere&emsp;&emsp;&emsp;&emsp;&emsp;price by service provier&emsp;&emsp;&emsp;&emsp;&emsp;service provided</p>
+        <table>
+        <tr>
+            <th>usernames</th>
+            <th>price you offere</th>
+            <th>price by service provier</th>
+            <th>service provided</th>
+        </tr>
         {% comment %} {%for i in y %} {% endcomment %}
         {% for i,j,k,l in mylist%}
-        <p>{{i}}&emsp;&emsp;&emsp;&emsp;&emsp;{{j}}&emsp;&emsp;&emsp;&emsp;&emsp;{{k}}&emsp;&emsp;&emsp;&emsp;&emsp;{{l}}</p>
+        <tr>
+            <td>{{i}}</td>
+            <td>{{j}}</td>
+            <td>{{k}}</td>
+            <td>{{l}}</td>
+
+        </tr>
                 {% comment %} {{y}} {% endcomment %}
         {%endfor %}
+        </table>
         <form name="sentMessage" id="contactForm" action = "/delete_request" method="post">
             {%csrf_token %}
             <h2 class="text-center"><strong>Delete</strong>request</h2>

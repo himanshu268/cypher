@@ -5,25 +5,32 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
+        <style>
+            table, th, td {
+               border: 1px solid black;
+            }
+         </style>
+   
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>sending_request</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
-        <p>usernames&emsp;&emsp;&emsp;&emsp;&emsp;offer_price</p>
+        <table>
+        <tr>
+            <th>usernames</th>
+            <th>offer_price</th>
+        </tr>
+        {% for one,two in mylist%}
+        <tr> 
+            <td>{{one}}</td>
+            <td>{{two}}</td> 
+        </tr>
+        {% endfor %}
+        </table>
         <form name="sentMessage" id="contactForm" action = "/sending_request" method="post">
             {%csrf_token %}
-            {% comment %} {%for i in service_username%} {% endcomment %}
-            {% comment %} {{data.service_username}} {% endcomment %}
-            
-            {% for one,two in mylist%}
-            
-                <p> {{ one}}&emsp;&emsp;&emsp;&emsp;&emsp;{{two}} </p>
-            {% endfor %}
-            {% comment %} <p>{{data.service_username.0}}&emsp;&emsp;&emsp;&emsp;&emsp;{{data.service_amount}}</p> {% endcomment %}
-            {% comment %} <p>{% service_username.i %}</p> {% endcomment %}
-            {% comment %} {%endfor%} {% endcomment %}
             <h2 class="text-center"><strong>Enter</strong> OTP</h2>
             {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
             <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div>
