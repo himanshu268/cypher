@@ -15,6 +15,9 @@ isforgetcheck=False
 service_islogin=False
 service_isforgetcheck=False
 
+def trying(request):
+    return render(request,'changing_password.html')
+
 
 #------------------common-------------function-----------used---------in--------both--------------------
 def generateOTP() :
@@ -63,6 +66,7 @@ def signup(request):
                             n+=1
                         if(i=='@'or i=='$' or i=='_' or i=="'" or i=='%' or i=='!' or i=='&' or i=='*'):
                             s+=1
+                            
                 if (l>=1 and u>=1 and s>=1 and n>=1 and l+s+u+n==len(password)):   
                     password=make_password(password)
                     # global hash_pwd 
@@ -139,7 +143,7 @@ def forgot_password(request):
             otp_put.token=forget_token
             isforgetcheck=True
             otp_put.save()
-            return render(request,'otp_verification.html')
+            return render(request,'otp_verification.html', {"context": forget_email})
             # else:
         return HttpResponse('wrong email')   
     else:
@@ -175,12 +179,12 @@ def changing_password(request):
                 new_password=make_password(new_password)
                 change_pwd.password=new_password
                 change_pwd.save()
-                return HttpResponse('signin.html')
+                return render(request, 'signin.html')
             else:
                 return HttpResponse('passwords are not same')
         else:
             return render(request,'changing_password.html')
-    return render(request,'forgot_password.html')
+    return render(request,'forget_password.html')
 
 def logout(request):
     global islogin

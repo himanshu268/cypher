@@ -1,8 +1,4 @@
-<<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+{% comment %} <!DOCTYPE html>
 <html>
     <head>
         <style>
@@ -32,19 +28,87 @@
         <form name="sentMessage" id="contactForm" action = "/sending_request" method="post">
             {%csrf_token %}
             <h2 class="text-center"><strong>Enter</strong> OTP</h2>
-            {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
             <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div>
             <div class="form-group"><input class="form-control" type="text" name="bargin_amt" placeholder="Enter bargaining amount"Required></div>
-                {% comment %} <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox">I agree to the license terms.</label></div> {% endcomment %}
             </div>
             <div class="form-group"><button class="btn btn-primary btn-block" type="submit">submit</button></div><a href="#" class="already">You already have an account? Login here.</a></form>
         </form>
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
         
+        <script src="" async defer></script>
+    </body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <style>
+            body{
+                background-color: rgb(215, 188, 240);
+            }
+             h1{
+                text-align: center;
+            }
+
+            table, th, td {
+               
+                border: 1px solid black;
+            }
+            table, th, td {
+                background-color: #ffffff;
+                color: rgb(0, 0, 0);
+                border: 1px solid black;
+                text-align: center;
+                margin-left: auto;  
+                margin-right: auto;  
+                /* margin-top: 10%; */
+                border-collapse: collapse;    
+                width: 800px;  
+            }
+            form{
+                text-align: center;
+                margin-left: auto;  
+                margin-right: auto; 
+
+            }
+         </style>
+   
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>sending_request</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        
+    </head>
+    <body>
+        <h1>Send Request</h1>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Price Offered</th>
+            </tr>
+            {% for one,two in mylist%}
+            <tr> 
+                <td>{{one}}</td>
+                <td>{{two}}</td> 
+            </tr>
+            {% endfor %}
+            </table><br><br><br>
+            <form name="sentMessage" id="contactForm" action = "/sending_request" method="post">
+                {%csrf_token %}
+                <h2 class="text-center"><strong>Bargin Here</strong></h2>
+                {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
+                <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div><br>
+                <div class="form-group"><input class="form-control" type="text" name="bargin_amt" placeholder="Enter bargaining amount"Required></div><br>
+                </div>
+                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">submit</button></div>
+            </form>
+       
         <script src="" async defer></script>
     </body>
 </html>

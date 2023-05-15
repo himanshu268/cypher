@@ -19,7 +19,9 @@ from django.urls import path
 from home import views
 
 urlpatterns = [
-    path('',views.home, name='home'),#when we'll visit / then it will show the page which will be on views.py of name home function 
+    path('',views.home, name='home'),
+    path('trying',views.trying, name='changing_password.html'),
+    #when we'll visit / then it will show the page which will be on views.py of name home function 
     # path()
     path('signup',views.signup, name='signup.html'),
     path('signin',views.signin, name='signin.html'),
