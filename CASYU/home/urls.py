@@ -20,7 +20,7 @@ from home import views
 
 urlpatterns = [
     path('',views.home, name='home'),
-    path('trying',views.trying, name='changing_password.html?'),
+    path('trying',views.trying, name='changing_password.html'),
     path('home',views.homelog,name='home.html'),
     path('home_service',views.homeser,name='home_service.html'),
     #when we'll visit / then it will show the page which will be on views.py of name home function 

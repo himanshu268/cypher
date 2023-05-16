@@ -14,11 +14,13 @@
 </head>
 
 <body>
+    <a href='home'><img src="../static/img/logo.jpg" alt="SL" width="50" height="50"></a>
+
     <div class="register-photo d-flex justify-content-center">
         <div class="form-container">
             <div class="image-holder"></div>
             <form name="sentMessage" id="contactForm" action = "/bargin" method="post">
-                {%csrf_token %}
+                {%csrf_token %}h
                 <h2 class="text-center"><strong>select your service.</strong> </h2>
                 <div class="form-group"><input class="form-control" type="text" name="bargin" placeholder="Enter your amount"Required></div>
 
