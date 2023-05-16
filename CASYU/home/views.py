@@ -16,7 +16,15 @@ service_islogin=False
 service_isforgetcheck=False
 
 def trying(request):
-    return render(request,'changing_password.html')
+    return render(request,'home_service.html')
+
+def homeser(request):
+    
+    return render (request,'home_service.html',{'name':name})
+
+def homelog(request):
+    
+    return render (request,'home.html',{'name':name})
 
 
 #------------------common-------------function-----------used---------in--------both--------------------
@@ -108,7 +116,7 @@ def signin(request):
                 token_put.save()
                 islogin=True
                 name=username
-                return redirect('bargin.html')
+                return redirect('home.html',{'name':name})
         return HttpResponse('wrong credentials')
     else:
         return render(request,'signin.html')
@@ -197,7 +205,7 @@ def logout(request):
         token_puting.save()
         islogin=False
         return redirect('signin.html')
-    return render (request,'logout.html',{'name':name})
+    return render (request,'index.html')
 
 def bargin(request):
 
@@ -584,7 +592,7 @@ def sign_service(request):
                 token_put.save()
                 service_islogin=True
                 service_name=username
-                return render(request,'service_logout.html')
+                return render(request,'home_service.html',{'name':service_name})
         return HttpResponse('wrong credentials')
     else:
         return render(request,'service_signin.html')
@@ -671,7 +679,7 @@ def service_logout(request):
         token_puting.save()
         service_islogin=False
         return redirect('service_signin.html')
-    return render (request,'service_logout.html',{'name':service_name})
+    return render (request,'service_logout.html')
 
 def service_recieve_request(request):
     if service_islogin and Signup_service.objects.filter(username=service_name,token=service_create_token).exists():#use this feature in all the pages which are view after login to check authnetication

@@ -35,16 +35,37 @@
                 margin-right: auto; 
 
             }
+            /* .flex-container form {
+                display:table-cell;
+                width:200px;
+                background-color:#ffffff;
+                padding:40px 60px;
+                color:#505e6c;
+            }  */
+  
+            /* @media (max-width:991px) {
+           .flex-container form {
+                padding:40px;
+            }
+         } */
             .flex-container {
                 display: flex;
-                color:#050404;
+                /* color:#050404; */
                 /* background-color: rgb(200, 161, 223); */
+            }
+            .flex-container form .form-control{
+                width: 200px;
+                height: 35px;
+                border: none;
+                background-color: #e7eef8;
+
             }
 
             .flex-container > div {
                 background-color: #ffffff;
-                margin: 80px;
+                margin: 70px;
                 padding: 50px;
+                width: 750px;
                 font-size: 15px;
             }
 
@@ -55,12 +76,14 @@
             .flex-container form .btn-primary{
                 background:#f4476b;
                 border:none;
+                width: 200px;
+                height: 40px;
                 border-radius:3px;
-                padding:12px;
+                padding:10px;
                 box-shadow:none;
                 margin-top:20px;
-                margin-right: 5px;
-                margin-left: 5px;
+                margin-right: 10px;
+                margin-left: 10px;
                 text-shadow:none;
                 outline:none !important;
 
@@ -100,7 +123,7 @@
         <div>
             <form name="sentMessage" id="contactForm" action = "/delete_request" method="post">
                 {%csrf_token %}
-                <h2 class="text-center"><strong>Delete Request</strong></h2>
+                <h2 class="text-center"><strong>delete request</strong></h2>
                 {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
                 <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div>
                 {% comment %} <div class="form-group"><input class="form-control" type="text" name="bargin_amt" placeholder="Enter bargaining amount"Required></div> {% endcomment %}
@@ -111,22 +134,22 @@
         <div>
             <form name="sentMessage" id="contactForm" action = "/accept_request" method="post">
                 {%csrf_token %}
-                <h2 class="text-center"><strong>Accept Request</strong></h2>
+                <h2 class="text-center"><strong>accept request</strong></h2>
                 {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
                 <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div><br>
                 <div class="form-group"><input class="form-control" type="text" name="bargin_amt" placeholder="serv_price"Required></div><br>
-                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Delete</button></div>
+                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Accept</button></div>
             </form>
         </div>
 
         <div>
             <form name="sentMessage" id="contactForm" action = "/bargin_request" method="post">
                 {%csrf_token %}
-                <h2 class="text-center"><strong>Bargin Request</strong></h2>
+                <h2 class="text-center"><strong>bargin request</strong></h2>
                 {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
                 <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div><br>
                 <div class="form-group"><input class="form-control" type="text" name="bargin_amt" placeholder="Enter bargaining amount"Required></div><br>
-                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Delete</button></div>
+                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Bargin</button></div>
             </form>
         </div>
         </div>

@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -6,9 +6,25 @@
 <html>
     <head>
         <style>
-            table, th, td {
-               border: 1px solid black;
+            body{
+                background-color: #e8eef7;
+                
             }
+            h1{
+                text-align: center;
+            }
+            table, th, td {
+                background-color: #ffffff;
+                color: rgb(0, 0, 0);
+                border: 1px solid black;
+                text-align: center;
+                margin-left: auto;  
+                margin-right: auto;  
+                /* margin-top: 10%; */
+                border-collapse: collapse;    
+                width: 800px;  
+            }
+            
          </style>
    
         <meta charset="utf-8">
@@ -17,24 +33,23 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
-        <table>
-        <tr>
-            <th>usernames</th>
-            <th>price you offere and accepted</th>
-        </tr>
-        {%for i,j in mylist%}
-        <tr>
-            <td>{{i}}</td>
-            <td>{{j}}</td>
-        </tr>
-        {%endfor%}
-        </table>
+        
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
+        <h1>Accepted Requests</h1>
+        <table>
+            <tr>
+                <th>Usernames</th>
+                <th>Offered and accepted Price</th>
+            </tr>
+            {%for i,j in mylist%}
+            <tr>
+                <td>{{i}}</td>
+                <td>{{j}}</td>
+            </tr>
+            {%endfor%}
+            </table>
+       
         <script src="" async defer></script>
     </body>
 </html>

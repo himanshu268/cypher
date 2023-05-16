@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -6,65 +6,153 @@
 <html>
     <head>
         <style>
+             body{
+                background-color: #e8eef7;
+                color:#000005;
+                /* background-color: rgb(197, 164, 228); */
+                
+            }
+            h1{
+                text-align: center;
+            }
+            table, th, td {
+                background-color:#fcfdff;;
+                color: rgb(0, 0, 0);
+                border: 1px solid black;
+                text-align: center;
+                margin-left: auto;  
+                margin-right: auto;  
+                /* margin-top: 10%; */
+                border-collapse: collapse;    
+                width: 800px;  
+            }
             table, th, td {
                border: 1px solid black;
             }
-         </style>   
+            form{
+                text-align: center;
+                margin-left: auto;  
+                margin-right: auto; 
+
+            }
+            /* .flex-container form {
+                display:table-cell;
+                width:200px;
+                background-color:#ffffff;
+                padding:40px 60px;
+                color:#505e6c;
+            }  */
+  
+            /* @media (max-width:991px) {
+           .flex-container form {
+                padding:40px;
+            }
+         } */
+            .flex-container {
+                display: flex;
+                /* color:#050404; */
+                /* background-color: rgb(200, 161, 223); */
+            }
+            .flex-container form .form-control{
+                width: 200px;
+                height: 35px;
+                border: none;
+                background-color: #e7eef8;
+
+            }
+
+            .flex-container > div {
+                background-color: #ffffff;
+                margin: 70px;
+                padding: 50px;
+                width: 750px;
+                font-size: 15px;
+            }
+
+            .flex-container form .form-check {
+                font-size:15px;
+                line-height:20px;
+            }
+            .flex-container form .btn-primary{
+                background:#f4476b;
+                border:none;
+                width: 200px;
+                height: 40px;
+                border-radius:3px;
+                padding:10px;
+                box-shadow:none;
+                margin-top:20px;
+                margin-right: 10px;
+                margin-left: 10px;
+                text-shadow:none;
+                outline:none !important;
+
+            }
+         </style>
+   
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>sending_request</title>
+        <title>receive_request</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
-        <table>
-        <tr>
-            <th>customer usernames</th>
-            <th>price offere by customer</th>
-            <th>price offer by you</th>
-        </tr>
-        {%for i ,j,k in mylist %}
-        <tr>
-            <td>{{i}}</td>
-            <td>{{j}}</td>
-            <td>{{k}}</td>
-        </tr>
-                {% comment %} {{y}} {% endcomment %}
-        {%endfor %}
-        </table>
-        <form name="sentMessage" id="contactForm" action = "/service_delete_request" method="post">
-            {%csrf_token %}
-            <h2 class="text-center"><strong>Delete</strong>request</h2>
-            {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
-            <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div>
-                {% comment %} <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox">I agree to the license terms.</label></div> {% endcomment %}
-            </div>
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">delete</button></div><a href="#" class="already">You already have an account? Login here.</a></form>
-        </form>
-        <form name="sentMessage" id="contactForm" action = "/service_accept_request" method="post">
-            {%csrf_token %}
-            <h2 class="text-center"><strong>accept</strong>request</h2>
-            {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
-            <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div>
-            <div class="form-group"><input class="form-control" type="text" name="bargin_amt" placeholder="Enter amount at which you are ready"Required></div>
-                {% comment %} <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox">I agree to the license terms.</label></div> {% endcomment %}
-            </div>
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">delete</button></div><a href="#" class="already">You already have an account? Login here.</a></form>
-        </form>
-        <form name="sentMessage" id="contactForm" action = "/service_bargin_request" method="post">
-            {%csrf_token %}
-            <h2 class="text-center"><strong>bargin</strong>request</h2>
-            {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
-            <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div>
-            <div class="form-group"><input class="form-control" type="text" name="bargin_amt" placeholder="Enter bargaining amount"Required></div>
-                {% comment %} <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox">I agree to the license terms.</label></div> {% endcomment %}
-            </div>
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">delete</button></div><a href="#" class="already">You already have an account? Login here.</a></form>
-        </form>
+
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+        <h1>Received Requests</h1>
+        <table>
+            <tr>
+                <th>Customer Username</th>
+                <th>Price offered by customer</th>
+                <th>Price offered by you</th>
+            </tr>
+            {% comment %} {%for i in y %} {% endcomment %}
+            {% for i,j,k,l in mylist%}
+            <tr>
+                <td>{{i}}</td>
+                <td>{{j}}</td>
+                <td>{{k}}</td>
+                <td>{{l}}</td>
+    
+            </tr>
+                    {% comment %} {{y}} {% endcomment %}
+            {%endfor %}
+            </table>
+        <div class="flex-container">
+        <div>
+            <form name="sentMessage" id="contactForm" action = "/delete_request" method="post">
+                {%csrf_token %}
+                <h2 class="text-center"><strong>delete request</strong></h2>
+                {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
+                <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div>
+                {% comment %} <div class="form-group"><input class="form-control" type="text" name="bargin_amt" placeholder="Enter bargaining amount"Required></div> {% endcomment %}
+                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Delete</button></div>
+            </form>
+        </div>
+
+        <div>
+            <form name="sentMessage" id="contactForm" action = "/accept_request" method="post">
+                {%csrf_token %}
+                <h2 class="text-center"><strong>accept request</strong></h2>
+                {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
+                <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div><br>
+                <div class="form-group"><input class="form-control" type="text" name="bargin_amt" placeholder="serv_price"Required></div><br>
+                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Accept</button></div>
+            </form>
+        </div>
+
+        <div>
+            <form name="sentMessage" id="contactForm" action = "/bargin_request" method="post">
+                {%csrf_token %}
+                <h2 class="text-center"><strong>bargin request</strong></h2>
+                {% comment %} <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter your username"Required></div> {% endcomment %}
+                <div class="form-group"><input class="form-control" type="text" name="service_usr" placeholder="Enter username of service provier"Required></div><br>
+                <div class="form-group"><input class="form-control" type="text" name="bargin_amt" placeholder="Enter bargaining amount"Required></div><br>
+                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Bargin</button></div>
+            </form>
+        </div>
+        </div>
+       
         
         <script src="" async defer></script>
     </body>
