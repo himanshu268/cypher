@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password,check_password
 import random,string
 import math,random
 from django.core.mail import send_mail
+from django.conf import settings
 from django.template.loader import render_to_string
 from .forms import *
 
@@ -14,6 +15,8 @@ islogin=False
 isforgetcheck=False
 service_islogin=False
 service_isforgetcheck=False
+
+
 
 def trying(request):
     return render(request,'home_service.html')
@@ -116,7 +119,7 @@ def signin(request):
                 token_put.save()
                 islogin=True
                 name=username
-                return redirect('home.html',{'name':name})
+                return render(request,'home.html',{'name':name})
         return HttpResponse('wrong credentials')
     else:
         return render(request,'signin.html')
@@ -150,6 +153,13 @@ def forgot_password(request):
             otp_put.otp=otp_send
             otp_put.token=forget_token
             isforgetcheck=True
+            # send_mail(
+            #     'Contact Form',
+            #     otp_send,
+            #     'settings.EMAIL_HOST_USER',
+            #     [email],
+
+            # )
             otp_put.save()
             return render(request,'otp_verification.html', {"context": forget_email})
             # else:
